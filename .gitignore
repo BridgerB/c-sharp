@@ -1,0 +1,17 @@
+# .NET build artifacts
+bin/
+obj/
+*.csproj.nuget.dgspec.json
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
+project.assets.json
+project.nuget.cache
+*.dll
+*.pdb
+*.runtimeconfig.json
+*.deps.json
+*.sourcelink.json
+*.genruntimeconfig.cache
+*.assets.cache
+*.CoreCompileInputs.cache
+*.GeneratedMSBuildEditorConfig.editorconfig
