@@ -27,15 +27,16 @@ public static class SolarTimeCalculator
 
     private static SolarEvents GetSolarEvents(DateTime date, double latitude, double longitude)
     {
-        var today = date.Date;
+        var today = date.ToUniversalTime().Date;
         var tomorrow = today.AddDays(1);
 
         var todayPhases = SunCalc.GetSunPhases(today, latitude, longitude, 0).ToList();
         var tomorrowPhases = SunCalc.GetSunPhases(tomorrow, latitude, longitude, 0).ToList();
 
         var sunrise = GetPhaseTime(todayPhases, "Sunrise");
-        var sunset = GetPhaseTime(tomorrowPhases, "Sunset");
-        var previousSunset = GetPhaseTime(todayPhases, "Sunset");
+        var sunset = GetPhaseTime(todayPhases, "Sunset");
+        var yesterdayPhases = SunCalc.GetSunPhases(today.AddDays(-1), latitude, longitude, 0).ToList();
+        var previousSunset = GetPhaseTime(yesterdayPhases, "Sunset");
         var nextSunrise = GetPhaseTime(tomorrowPhases, "Sunrise");
 
         return new SolarEvents(sunrise, sunset, previousSunset, nextSunrise);
