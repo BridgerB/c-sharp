@@ -7,11 +7,14 @@
 
   outputs = { self, nixpkgs, ... }:
   let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs { inherit system; };
+    forAllSystems = systems: f: nixpkgs.lib.genAttrs systems (system: f {
+      pkgs = import nixpkgs { inherit system; };
+    });
+    systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" ];
   in
   {
-    devShells.${system}.default = pkgs.mkShell {
+    devShells = forAllSystems systems ({ pkgs }: {
+      default = pkgs.mkShell {
       buildInputs = [
         pkgs.dotnet-sdk_8
       ];
@@ -20,6 +23,7 @@
         echo "Run 'dotnet new console -o HelloWorld' to create a new project"
         echo "Run 'dotnet run' inside the project directory to execute"
       '';
-    };
+      };
+    });
   };
 }
